@@ -8,67 +8,9 @@ movies_data = pd.read_csv('final.csv')
 all_movies = movies_data[['original_title','poster_link' , 'release_date', 'runtime','weighted_rating']]
 
 #Segregar dados
-liked_movies = []
-not_liked_movies = []
-did_not_watch = []
-
-def assign_val():
-    m_data = {
-        "original_title": all_movies.iloc[0,0],
-        "poster_link": all_movies.iloc[0,1],
-        "release_date": all_movies.iloc[0,2] or "N/A",
-        "duration": all_movies.iloc[0,3],
-        "rating": all_movies.iloc[0,4]/2
-    }
-    return m_data
 
 
-@app.route("/movies")
-def get_movies():
-    movies_data = assign_val()
+#Criar apis
 
-    return jsonify({
-        "data": movies_data,
-        "status": "success"
-    })
-
-@app.route("/like", methods=["POST"])
-def liked_movie():
-    global all_movies
-
-    movie_data=assign_val()
-    liked_movies.append(movie_data)
-    all_movies.drop([0], inplace=True)
-    all_movies = all_movies.reset_index(drop=True)
-
-    return jsonify({
-        "status": "success"
-    })
-
-@app.route("/dislike", methods=["POST"])
-def unliked_movie():
-    global all_movies
-
-    movie_data=assign_val()
-    not_liked_movies.append(movie_data)
-    all_movies.drop([0], inplace=True)
-    all_movies = all_movies.reset_index(drop=True)
-
-    return jsonify({
-        "status": "success"
-    })
-
-@app.route("/did_not_watch", methods=["POST"])
-def did_not_watch_movie():
-    global all_movies
-
-    movie_data=assign_val()
-    did_not_watch_movie.append(movie_data)
-    all_movies.drop([0], inplace=True)
-    all_movies = all_movies.reset_index(drop=True)
-
-    return jsonify({
-        "status": "success"
-    })
 
 app.run(debug=True)
